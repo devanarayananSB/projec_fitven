@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <!-- Include Chart.js library for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .counter {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .counter-item {
+            flex: 1;
+            padding: 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .counter-item h2 {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .counter-item p {
+            font-size: 16px;
+        }
+
+        .charts {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        canvas {
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <h1>User Dashboard</h1>
+        
+        <div class="counter">
+            <div class="counter-item">
+              <a href="caloriecalculator.html">
+                <button><h2>Calories Consumed</h2></button>
+              </a>
+                <p>1200 kcal</p>
+            </div>
+            <div class="counter-item">
+                <h2>Steps Taken</h2>
+                <p>7500 steps</p>
+            </div>
+            <div class="counter-item">
+               <a href="workoutgenerator.html">
+                <button><h2>Calories Burned</h2></button>
+              </a>
+                <p>500 kcal</p>
+            </div>
+        </div>
+
+        <div class="charts">
+            <!-- Goal Progress Pie Chart -->
+            <canvas id="goalProgressChart" width="400" height="400"></canvas>
+
+            <!-- Calorie Consumption Line Chart -->
+            <canvas id="calorieConsumptionChart" width="400" height="200"></canvas>
+
+            <!-- Sleep Chart (Bar Graph) -->
+            <canvas id="sleepChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Get the canvas elements for the charts
+const goalProgressCanvas = document.getElementById('goalProgressChart');
+const calorieConsumptionCanvas = document.getElementById('calorieConsumptionChart');
+const sleepCanvas = document.getElementById('sleepChart');
+
+// Create the Goal Progress Pie Chart
+const goalProgressData = {
+  labels: ['Achieved', 'Remaining'],
+  datasets: [{
+    data: [75, 25], // Example data (75% achieved, 25% remaining)
+    backgroundColor: ['#36A2EB', '#FF6384'],
+  }],
+};
+
+new Chart(goalProgressCanvas, {
+  type: 'pie',
+  data: goalProgressData,
+  options: {
+    title: {
+      display: true,
+      text: 'Goal Progress',
+    },
+  },
+});
+
+// Create the Calorie Consumption Line Chart
+const calorieConsumptionData = {
+  labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+  datasets: [{
+    label: 'Calories Consumed',
+    data: [1500, 1400, 1600, 1550, 1700], // Example data (calories consumed per day)
+    borderColor: '#FF6384',
+    fill: false,
+  }],
+};
+
+new Chart(calorieConsumptionCanvas, {
+  type: 'line',
+  data: calorieConsumptionData,
+  options: {
+    title: {
+      display: true,
+      text: 'Calorie Consumption',
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+        },
+      }],
+    },
+  },
+});
+
+// Create the Sleep Chart (Bar Graph)
+const sleepData = {
+  labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+  datasets: [{
+    label: 'Hours of Sleep',
+    data: [7, 6, 8, 7.5, 6.5], // Example data (hours of sleep per day)
+    backgroundColor: '#36A2EB',
+  }],
+};
+
+new Chart(sleepCanvas, {
+  type: 'bar',
+  data: sleepData,
+  options: {
+    title: {
+      display: true,
+      text: 'Sleep Pattern',
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+        },
+      }],
+    },
+  },
+});
+
+        // JavaScript code for creating and updating charts goes here
+        // You'll need to use Chart.js to create the charts and provide data
+    </script>
+</body>
+</html>

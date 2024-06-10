@@ -1,0 +1,8 @@
+<?php
+$host="localhost";
+$user="root";
+$pass="";
+$db="fitven";
+$conn=mysqli_connect($host,$user,$pass) or die ("error");
+$db1=mysqli_select_db($conn,$db) or die("Error with database");
+?>

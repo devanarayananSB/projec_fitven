@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Planner</title>
+    <style>
+        /* Your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        select {
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        main {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        #workout-list {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #workout-list .workout-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #workout-list .workout-card:hover {
+            background-color: #f0f0f0;
+        }
+
+        #tutorial {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Workout Planner</h1>
+        <p>Select your goal:</p>
+        <select id="goalSelect">
+            <option value="lose-weight">Lose Weight</option>
+            <option value="gain-muscle">Gain Muscle</option>
+            <option value="stay-fit">Stay Fit</option>
+        </select>
+    </header>
+
+    <main>
+        <section id="workout-list">
+            <!-- Workout cards will be added dynamically here -->
+        </section>
+
+        <section id="tutorial">
+            <!-- Tutorial content will be displayed here -->
+        </section>
+    </main>
+
+    <script>
+        const goalSelect = document.getElementById('goalSelect');
+        const workoutList = document.getElementById('workout-list');
+        const tutorialSection = document.getElementById('tutorial');
+
+        const workouts = {
+            'lose-weight': [
+                {
+                    name: 'Cardio Workout',
+                    description: '30 minutes of jogging or cycling.',
+                    image: 'image_processing20210907-11148-m3b472.gif'
+                },
+               
+            ],
+            'gain-muscle': [
+                {
+                    name: 'Strength Training',
+                    description: '3 sets of 10 reps of squats, bench press, and deadlifts.',
+                    image: 'Weightlifting_V6-SD'
+                },
+                
+            ],
+            'stay-fit': [
+                {
+                    name: 'Full-Body Workout',
+                    description: 'Combination of cardio and strength exercises.',
+                    image: 'gym-guy-8x6'
+                },
+                
+            ],
+        };
+
+        goalSelect.addEventListener('change', () => {
+            const selectedGoal = goalSelect.value;
+            displayWorkouts(selectedGoal);
+        });
+
+        function displayWorkouts(goal) {
+            workoutList.innerHTML = '';
+
+            const goalWorkouts = workouts[goal];
+
+            if (goalWorkouts) {
+                goalWorkouts.forEach(workout => {
+                    const workoutCard = document.createElement('div');
+                    workoutCard.classList.add('workout-card');
+                    workoutCard.innerHTML = `
+                        <h2>${workout.name}</h2>
+                        <p>${workout.description}</p>
+                        <img src="${workout.image}" alt="${workout.name}">
+                        
+                    `;
+
+                    workoutCard.addEventListener('click', () => {
+                        displayTutorial(workout);
+                    });
+
+                    workoutList.appendChild(workoutCard);
+                });
+            }
+        }
+
+        function displayTutorial(workout) {
+            tutorialSection.innerHTML = '';
+            
+            const tutorialTitle = document.createElement('h2');
+            tutorialTitle.textContent = workout.name;
+
+            const tutorialDescription = document.createElement('p');
+            tutorialDescription.textContent = workout.description;
+
+            const tutorialVideo = document.createElement('video');
+            tutorialVideo.controls = true;
+            const source = document.createElement('source');
+            source.src = workout.video;
+            source.type = 'video/mp4';
+            tutorialVideo.appendChild(source);
+
+            tutorialSection.appendChild(tutorialTitle);
+            tutorialSection.appendChild(tutorialDescription);
+            tutorialSection.appendChild(tutorialVideo);
+        }
+
+        // Initial display based on the default selected goal
+        displayWorkouts(goalSelect.value);
+    </script>
+</body>
+</html>

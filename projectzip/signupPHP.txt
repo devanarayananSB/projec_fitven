@@ -1,0 +1,22 @@
+<?php
+include('connect.php');
+$name=$email=$country=$password=$date="";
+if($_SERVER['REQUEST_METHOD'] =='POST')
+{
+    $name=$_POST['name'];
+    $email=$_POST['email'];
+    $country=$_POST['country'];
+    $password=$_POST['password'];
+    $date=$_POST['date'];
+    
+$sql="INSERT INTO signup(name,email,country,password,dob) VALUES ('$name','$email','$country','$password','$date')";
+if($conn->query($sql)==TRUE)
+{
+  header('location:activitylevel.html');
+}
+else
+{
+  echo"error:".$sql."<br>".$conn->error;
+}
+}
+?>

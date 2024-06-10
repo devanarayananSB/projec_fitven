@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie Calculator</title>
+     <style>
+        /* Reset some default styles */
+body, h1, p, label, select {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+/* Style the select element */
+label {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+select {
+    font-size: 16px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+/* Style the nutritional information */
+#nutritionalInfo {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin: 20px 0;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* Style the chart */
+#nutritionalChart {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin: 20px 0;
+}
+
+     </style>   
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Calorie Calculator</h1>
+
+    <label for="foodSelect">Select a Food:</label>
+    <select id="foodSelect">
+        <option value="default">Select Food</option>
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+        <option value="chicken">Chicken</option>
+         <option value="oats">Oats</option>
+        <option value="walnut">Walnut</option>
+        <option value="beef">Beef</option>
+        <!-- Add more food options as needed -->
+    </select>
+
+    <div id="nutritionalInfo">
+        <h2>Nutritional Information(per 100g)</h2>
+        <p>Carb: <span id="carbValue">0g</span></p>
+        <p>Fat: <span id="fatValue">0g</span></p>
+        <p>Protein: <span id="proteinValue">0g</span></p>
+    </div>
+
+    <canvas id="nutritionalChart" width="400" height="200"></canvas>
+
+    <script>
+        const foodSelect = document.getElementById('foodSelect');
+        const carbValueElement = document.getElementById('carbValue');
+        const fatValueElement = document.getElementById('fatValue');
+        const proteinValueElement = document.getElementById('proteinValue');
+        const nutritionalChartCanvas = document.getElementById('nutritionalChart');
+
+        // Define nutritional values for selected foods (g per 100g)
+        const foodData = {
+            default: { carb: 0, fat: 0, protein: 0 },
+            apple: { carb: 25, fat: 0.3, protein: 0.5 },
+            banana: { carb: 23, fat: 0.3, protein: 1.1 },
+            chicken: { carb: 0, fat: 3.6, protein: 27.3 },
+            oats: { carb: 66, fat: 10.7, protein: 16.9 },
+            beef: { carb: 0, fat: 8.7, protein: 36 },
+           walnut: { carb: 13.7, fat: 65.2, protein: 15.2 },
+ 
+
+            // Add more foods and their nutritional values here
+        };
+
+        // Initialize the chart with default data
+        const nutritionalChart = new Chart(nutritionalChartCanvas, {
+            type: 'bar',
+            data: {
+                labels: ['Carb', 'Fat', 'Protein'],
+                datasets: [{
+                    data: [0, 0, 0],
+                    backgroundColor: ['#FF5733', '#FFC300', '#C70039'],
+                }],
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Nutritional Breakdown (per 100g)',
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                    }],
+                },
+            },
+        });
+
+        // Update the nutritional information and chart when a food is selected
+        foodSelect.addEventListener('change', () => {
+            const selectedFood = foodSelect.value;
+            const foodInfo = foodData[selectedFood] || foodData.default;
+
+            // Update nutritional values
+            carbValueElement.textContent = foodInfo.carb + 'g';
+            fatValueElement.textContent = foodInfo.fat + 'g';
+            proteinValueElement.textContent = foodInfo.protein + 'g';
+
+            // Update the chart data
+            nutritionalChart.data.datasets[0].data = [foodInfo.carb, foodInfo.fat, foodInfo.protein];
+            nutritionalChart.update();
+        });
+    </script>
+</body>
+</html>

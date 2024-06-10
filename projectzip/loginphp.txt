@@ -1,0 +1,33 @@
+$name = $password = "";
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $name = $_POST['name'];
+        $password = $_POST['password'];
+
+        $sql = "SELECT * FROM signup WHERE name = ? AND password = ?";
+        
+        $stmt = $conn->prepare($sql);
+
+        if (!$stmt) {
+            echo "Error: " . $conn->error;
+            exit();
+        }
+
+        $stmt->bind_param("ss", $name, $password);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+            $qry="INSERT INTO login(name,password) VALUES ('$name','$password')";
+            $ab=$conn->query($qry);
+            header('Location: activitylevel.html');
+            exit();
+        } else {
+            // User does not exist or wrong credentials
+            echo "Invalid email or password.";
+        }
+
+        $stmt->close();
+        $result->close();
+    } 
+?>
